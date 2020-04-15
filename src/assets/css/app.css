@@ -1,0 +1,149 @@
+.flash.success {
+    background-color: #7f9e40;
+    color: #f3f6ee;
+}
+
+.flash.failure {
+    background-color: #ac4343;
+    color: #f2e2e2;
+}
+
+.DTED div.modal-dialog {
+    max-width: initial;
+}
+
+
+div.DTE_Field_Type_textarea textarea {
+    padding: 3px;
+    width: 100%;
+    height: 120px;
+}
+
+/*td.control {*/
+/*    width: 5%;*/
+/*    max-width: 16px;*/
+/*    background-repeat: no-repeat;*/
+/*    background-position: center;*/
+/*    background-image: url('../resources/details_open.png');*/
+/*}*/
+
+/*tr.parent td.control {*/
+/*    width: 5%;*/
+/*    max-width: 16px;*/
+/*    background-image: url('../resources/details_close.png');*/
+/*}*/
+
+td.unseen {
+    background-color: burlywood;
+}
+
+td.marked_as_unseen {
+    background-color: tomato;
+}
+
+td.new_from_working_on_user {
+    background-color: #6c757d;
+}
+
+tr td.select-checkbox {
+    width: 5%;
+}
+
+html {
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
+    height: 100%;
+}
+
+.text-wrap {
+    white-space: normal;
+    width: 100%;
+}
+
+.btn.remove {
+    color: #fff;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+}
+
+.recordset.even {
+    background-color: #ffffff;
+}
+
+.recordset.odd {
+    background-color: #f6f6f6;
+}
+
+body {
+    min-height: 100%;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    text-align: start !important;
+}
+
+body::after {
+    content: '';
+    display: block;
+    height: 80px;
+}
+
+
+.footer {
+    bottom: 0;
+    background-color: #333;
+    color: #fff;
+    padding: 0;
+    text-align: center;
+    position: absolute;
+    width: 100%;
+    height: auto;
+    line-height: 60px;
+}
+
+.footer-text {
+    line-height: 25px;
+    margin: 0;
+}
+
+.custom-file-input ~ .custom-file-label::after {
+    content: "بحث";
+}
+
+.custom-file-control.selected:lang(ar)::after {
+    content: "" !important;
+}
+/* Style the navigation bar */
+.navbar {
+    width: 100%;
+    background-color: #555;
+    overflow: auto;
+}
+
+/* Navbar links */
+.navbar a {
+    float: left;
+    text-align: center;
+    padding: 12px;
+    color: white;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+/* Navbar links on mouse-over */
+.navbar a:hover {
+    background-color: #000;
+}
+
+/* Current/active navbar link */
+.active {
+    background-color: #4CAF50;
+}
+
+/* Add responsiveness - will automatically display the navbar vertically instead of horizontally on screens less than 500 pixels */
+@media screen and (max-width: 500px) {
+    .navbar a {
+        float: none;
+        display: block;
+    }
+}
