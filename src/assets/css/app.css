@@ -133,6 +133,8 @@ body::after {
 /* Navbar links on mouse-over */
 .navbar a:hover {
     background-color: #000;
+    text-decoration: none;
+    color: white;
 }
 
 /* Current/active navbar link */

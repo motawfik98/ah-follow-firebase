@@ -22,17 +22,24 @@
         <link rel="stylesheet"
               href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-        <navigation></navigation>
+        <navigation v-if="currentUser"></navigation>
+        <flash-message v-if="flashStatus"></flash-message>
     </div>
 </template>
 
 <script>
+    import {mapState} from 'vuex'
     import Navigation from "@/components/Navigation"
+    import FlashMessage from "@/components/FlashMessage"
 
     export default {
         name: "Header",
         components: {
-            Navigation
+            Navigation,
+            'flash-message': FlashMessage
+        },
+        computed: {
+            ...mapState(['currentUser', 'flashStatus', 'flashMessage'])
         }
     }
 </script>

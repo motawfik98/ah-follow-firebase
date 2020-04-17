@@ -3,6 +3,13 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import './assets/css/app.css'
+import { ValidationObserver, ValidationProvider } from 'vee-validate';
+
+Vue.component('ValidationProvider', ValidationProvider);
+Vue.component('ValidationObserver', ValidationObserver)
+
+import './vee-validator'
+
 
 Vue.config.productionTip = false
 
