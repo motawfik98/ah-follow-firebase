@@ -56,7 +56,8 @@
                             <div class="form-row">
                                 <div class="col">
                                     <label for="signUpPassword">كلمه السر</label>
-                                    <ValidationProvider name="كلمه السر" rules="required|confirmed:passwordConfirmation|min:6"
+                                    <ValidationProvider name="كلمه السر"
+                                                        rules="required|confirmed:passwordConfirmation|min:6"
                                                         v-slot="{ errors }">
                                         <input v-model.trim="signupForm.password" class="form-control"
                                                id="signUpPassword" placeholder="******" type="password">
@@ -149,11 +150,13 @@
                         this.$store.dispatch('fetchUserProfile')
                     }
                 }).catch(error => {
-                    let message = ''
+                    let message = error.code + " " + error.message
                     if (error.code === 'auth/email-already-in-use')
                         message = 'هذا البريد الالكتروني مسجل بالبرنامج'
                     if (error.code === 'auth/wrong-password')
                         message = 'بيانات الدخول ليست صحيحه'
+                    if (error.code === 'auth/user-not-found')
+                        message = 'لم يتم العثور على المستخدم. برجاء التأكد من البريد الالكتروني'
                     this.$store.commit('setFlash', {
                         "status": "failure",
                         "message": message
@@ -171,12 +174,17 @@
                     let status = result.data.status
                     if (status === "success") {
                         firebaseConfig.auth.createUserWithEmailAndPassword(this.signupForm.email, this.signupForm.password).then(user => {
-                            firebaseConfig.auth.signOut()
-                            this.viewLogin()
-                            user.user.sendEmailVerification().then(() => {
-                                this.$store.commit('setFlash', {
-                                    "status": "success",
-                                    "message": "تم انشاء الحساب. برجاء تفعيل البريد الالكتروني"
+                            firebaseConfig.usersCollection.doc(user.user.uid).set({
+                                name: this.signupForm.username,
+                                classification: this.signupForm.classification
+                            }).then(() => {
+                                firebaseConfig.auth.signOut()
+                                this.viewLogin()
+                                user.user.sendEmailVerification().then(() => {
+                                    this.$store.commit('setFlash', {
+                                        "status": "success",
+                                        "message": "تم انشاء الحساب. برجاء تفعيل البريد الالكتروني"
+                                    })
                                 })
                             })
                         }).catch(error => {

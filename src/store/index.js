@@ -5,7 +5,18 @@ const firebaseConfig = require('../firebaseConfig')
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
+firebaseConfig.auth.onAuthStateChanged(user => {
+    if (user) {
+        firebaseConfig.usersCollection.doc(user.uid).onSnapshot(doc => {
+            store.commit('setUserProfile', doc.data())
+        })
+        store.commit('setCurrentUser', user)
+        store.dispatch('fetchUserProfile')
+    }
+})
+
+
+const store = new Vuex.Store({
     state: {
         currentUser: null,
         nonVerifiedUser: null,
@@ -16,7 +27,17 @@ export default new Vuex.Store({
     actions: {
         fetchUserProfile({commit, state}) {
             firebaseConfig.usersCollection.doc(state.currentUser.uid).get().then(res => {
-                commit('setUserProfile', res.data())
+                let documentData = res.data();
+                commit('setUserProfile', documentData)
+                let classification = documentData.classification;
+                if (classification !== null) {
+                    if (classification === 1)
+                        state.userProfile.stringClassification = "الوزير"
+                    else if (classification === 2)
+                        state.userProfile.stringClassification = "متابع"
+                    else if (classification === 3)
+                        state.userProfile.stringClassification = "قائم به"
+                }
             }).catch(err => {
                 console.log(err)
             })
@@ -71,3 +92,4 @@ export default new Vuex.Store({
     },
     modules: {}
 })
+export default store
