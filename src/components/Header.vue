@@ -22,6 +22,14 @@
         <link rel="stylesheet"
               href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+        <link href="https://unpkg.com/material-components-web@v4.0.0/dist/material-components-web.min.css"
+              rel="stylesheet">
+        <script src="https://unpkg.com/material-components-web@v4.0.0/dist/material-components-web.min.js"></script>
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+
+
         <navigation v-if="currentUser"></navigation>
         <flash-message v-if="flashStatus"></flash-message>
     </div>
