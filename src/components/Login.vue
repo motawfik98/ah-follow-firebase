@@ -175,7 +175,7 @@
                     if (status === "success") {
                         firebaseConfig.auth.createUserWithEmailAndPassword(this.signupForm.email, this.signupForm.password).then(user => {
                             firebaseConfig.usersCollection.doc(user.user.uid).set({
-                                name: this.signupForm.username,
+                                username: this.signupForm.username,
                                 classification: this.signupForm.classification
                             }).then(() => {
                                 firebaseConfig.auth.signOut()
