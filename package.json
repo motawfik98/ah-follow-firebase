@@ -11,9 +11,13 @@
     "@material/card": "^5.1.0",
     "core-js": "^3.6.4",
     "firebase": "^7.14.1",
+    "v-select2-component": "^0.4.3",
     "vue": "^2.6.11",
+    "vue-multiselect": "^2.1.6",
     "vue-router": "^3.1.6",
-    "vuex": "^3.1.3"
+    "vue-select2": "^0.2.6",
+    "vuex": "^3.1.3",
+    "vuex-persistedstate": "^3.0.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.3.0",
@@ -25,6 +29,7 @@
     "cors": "^2.8.5",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
+    "jquery": "^3.5.0",
     "node-sass": "^4.12.0",
     "sass-loader": "^8.0.2",
     "vee-validate": "^3.2.5",

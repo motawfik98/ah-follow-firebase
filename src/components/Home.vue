@@ -15,13 +15,15 @@
         name: "Home",
         methods: {
             viewNewPage() {
-                this.$router.push('/new')
+                this.$store.dispatch('fetchFollowersUsers')
+                this.$store.dispatch('fetchWorkingOnUsers')
+                this.$store.dispatch('createNewTask')
+                this.$router.push('/tasks/task/new/')
             }
         },
         computed: {
             ...mapState(['userProfile'])
         },
-
     }
 </script>
 

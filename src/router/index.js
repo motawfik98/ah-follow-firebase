@@ -5,10 +5,14 @@ import * as firebase from "firebase/app";
 
 import Login from '@/components/Login'
 import Home from '@/components/Home'
+import CreateEdit from "@/components/create-edit-form/CreateEdit"
+import Multiselect from 'vue-multiselect'
 
 const DEFAULT_TITLE = 'التكليفات الوزاريه'
 
 Vue.use(VueRouter)
+// register globally
+Vue.component('multiselect', Multiselect)
 
 const routes = [
     {
@@ -30,6 +34,16 @@ const routes = [
         meta: {
             requiresAuth: true,
             title: 'الرئيسيه'
+        }
+    },
+    {
+        path: "/tasks/task/:task_id",
+        alias: '/tasks/task/new',
+        name: "CreateEdit",
+        component: CreateEdit,
+        meta: {
+            requiresAuth: true,
+            title: 'تكليف جديد'
         }
     },
 ]
