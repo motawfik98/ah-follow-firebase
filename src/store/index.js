@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
-import {currentUser} from "@/firebaseConfig";
 
 const firebaseConfig = require('../firebaseConfig')
 
@@ -63,10 +62,10 @@ const store = new Vuex.Store({
             commit('setFlashMessage', null)
             commit('setNonVerifiedUser', null)
         },
-        createNewTask({commit}) {
+        createNewTask({commit, state}) {
             commit('setTask', {
                 isNew: true,
-                uid: currentUser.uid
+                uid: state.currentUser.uid
             })
         },
         fetchFollowersUsers({commit}) {
