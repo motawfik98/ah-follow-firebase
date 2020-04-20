@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import createPersistedState from 'vuex-persistedstate'
+import {currentUser} from "@/firebaseConfig";
 
 const firebaseConfig = require('../firebaseConfig')
 
@@ -23,6 +25,10 @@ const store = new Vuex.Store({
         userProfile: {},
         flashStatus: null,
         flashMessage: null,
+        task: null,
+        tasks: [],
+        followingUsers: [],
+        workingOnUsers: [],
     },
     actions: {
         fetchUserProfile({commit, state}) {
@@ -47,12 +53,32 @@ const store = new Vuex.Store({
             commit('setNonVerifiedUser', null)
             commit('setUserProfile', {})
             commit('setPosts', null)
+            commit('setTask', null)
+            commit('setTasks', [])
+            commit('setFollowingUsers', [])
+            commit('setWorkingOnUsers', [])
         },
         clearFlashMessage({commit}) {
             commit('setFlashStatus', null)
             commit('setFlashMessage', null)
             commit('setNonVerifiedUser', null)
-        }
+        },
+        createNewTask({commit}) {
+            commit('setTask', {
+                isNew: true,
+                uid: currentUser.uid
+            })
+        },
+        fetchFollowersUsers({commit}) {
+            fetchUsersType(2).then(followingUsers => {
+                commit('setFollowingUsers', followingUsers)
+            })
+        },
+        fetchWorkingOnUsers({commit}) {
+            fetchUsersType(3).then(workingOnUsers => {
+                commit('setWorkingOnUsers', workingOnUsers)
+            })
+        },
     },
     mutations: {
         setCurrentUser(state, val) {
@@ -88,8 +114,40 @@ const store = new Vuex.Store({
                 state.flashMessage = null
                 state.nonVerifiedUser = null
             }, 4000)
+        },
+        setTasks(state, val) {
+            state.tasks = val
+        },
+        setTask(state, val) {
+            state.task = val
+        },
+        setFollowingUsers(state, val) {
+            state.followingUsers = val
+        },
+        setWorkingOnUsers(state, val) {
+            state.workingOnUsers = val
         }
     },
+    plugins: [
+        createPersistedState({
+            paths: ['task', 'followingUsers', 'workingOnUsers']
+        })
+    ],
     modules: {}
 })
 export default store
+
+
+async function fetchUsersType(classification) {
+    let users = []
+    await firebaseConfig.usersCollection.where("classification", "==", classification)
+        .get()
+        .then(docs => {
+            docs.forEach(doc => {
+                let user = doc.data()
+                user.uid = doc.id
+                users.push(user)
+            })
+        })
+    return users
+}
