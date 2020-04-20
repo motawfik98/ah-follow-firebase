@@ -6,7 +6,7 @@
             اضغط هنا لارسال البريد الالكتروني مره اخرى
         </a>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
+            <span aria-hidden="true" @click="hide">&times;</span>
         </button>
     </div>
 </template>
@@ -25,6 +25,9 @@
                         "message": "تم ارسال البريد الالكتروني مره اخرى"
                     })
                 });
+            },
+            hide() {
+                this.$store.dispatch('clearFlashMessage')
             }
         },
         computed: {
