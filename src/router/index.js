@@ -38,7 +38,6 @@ const routes = [
     },
     {
         path: "/tasks/task/:task_id",
-        alias: '/tasks/task/new',
         name: "CreateEdit",
         component: CreateEdit,
         meta: {

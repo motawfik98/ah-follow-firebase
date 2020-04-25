@@ -145,9 +145,10 @@
                         })
                         firebaseConfig.auth.signOut()
                     } else {
-                        this.$router.push("/")
                         this.$store.commit('setCurrentUser', user.user)
-                        this.$store.dispatch('fetchUserProfile')
+                        this.$store.dispatch('fetchUserProfile').then(() => {
+                            this.$router.push("/")
+                        })
                     }
                 }).catch(error => {
                     let message = error.code + " " + error.message
