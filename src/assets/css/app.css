@@ -182,3 +182,22 @@ legend {
     border-radius: 4px;
     background-color: #ffffff;
 }
+
+.card-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+
+.card-title {
+    -webkit-line-clamp: 2; /* number of lines to show */
+}
+
+.card-body {
+    -webkit-line-clamp: 5; /* number of lines to show */
+}
+
+.primary-content {
+    height: 10rem
+}

@@ -6,9 +6,11 @@ import store from './store'
 const fb = require('./firebaseConfig.js')
 import './assets/css/app.css'
 import {ValidationObserver, ValidationProvider} from 'vee-validate';
+import infiniteScroll from 'vue-infinite-scroll'
 
 Vue.component('ValidationProvider', ValidationProvider);
 Vue.component('ValidationObserver', ValidationObserver)
+Vue.use(infiniteScroll)
 
 import './vee-validator'
 

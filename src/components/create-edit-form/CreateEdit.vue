@@ -17,6 +17,8 @@
     import StepFour from "@/components/create-edit-form/StepFour"
     import StepNavigator from "@/components/create-edit-form/StepNavigator"
 
+    const firebaseConfig = require('../../firebaseConfig')
+
     export default {
         name: "CreateEdit",
         data() {
@@ -34,6 +36,28 @@
         methods: {
             updateCurrentStep (newStep) {
                 this.currentStep = newStep
+            }
+        },
+        created() {
+            let taskID = this.$route.params.task_id
+            if (taskID === 'new') {
+                this.$store.dispatch('createNewTask')
+            } else {
+                firebaseConfig.tasksCollection.doc(taskID).get().then(doc => {
+                    if (doc.exists) {
+                        let task = doc.data()
+                        task.id = doc.id
+                        this.$store.commit('setTask', task)
+                    } else {
+                        this.$store.commit('setFlash', {
+                            "status": "failure",
+                            "message": "عفوا لم نتمكن من ايجاد الملف المطلوب. برجاء المحاوله مره اخرى"
+                        })
+                        this.$router.push('/')
+                    }
+                }).catch(err => {
+                    console.log("Error getting document", err)
+                })
             }
         }
     }

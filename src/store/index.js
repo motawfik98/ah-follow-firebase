@@ -26,23 +26,24 @@ const store = new Vuex.Store({
         flashMessage: null,
         task: null,
         tasks: [],
+        lastViewedDoc: null,
         followingUsers: [],
         workingOnUsers: [],
     },
     actions: {
-        fetchUserProfile({commit, state}) {
-            firebaseConfig.usersCollection.doc(state.currentUser.uid).get().then(res => {
+        async fetchUserProfile({commit, state}) {
+            await firebaseConfig.usersCollection.doc(state.currentUser.uid).get().then(res => {
                 let documentData = res.data();
-                commit('setUserProfile', documentData)
                 let classification = documentData.classification;
                 if (classification !== null) {
                     if (classification === 1)
-                        state.userProfile.stringClassification = "الوزير"
+                        documentData.stringClassification = "الوزير"
                     else if (classification === 2)
-                        state.userProfile.stringClassification = "متابع"
+                        documentData.stringClassification = "متابع"
                     else if (classification === 3)
-                        state.userProfile.stringClassification = "قائم به"
+                        documentData.stringClassification = "قائم به"
                 }
+                commit('setUserProfile', documentData)
             }).catch(err => {
                 console.log(err)
             })
@@ -56,6 +57,7 @@ const store = new Vuex.Store({
             commit('setTasks', [])
             commit('setFollowingUsers', [])
             commit('setWorkingOnUsers', [])
+            commit('setLastViewedDoc', null)
         },
         clearFlashMessage({commit}) {
             commit('setFlashStatus', null)
@@ -117,8 +119,14 @@ const store = new Vuex.Store({
         setTasks(state, val) {
             state.tasks = val
         },
+        setLastViewedDoc(state, val) {
+            state.lastViewedDoc = val
+        },
         setTask(state, val) {
             state.task = val
+        },
+        appendToTasks(state, val) {
+            state.tasks = state.tasks.concat(val)
         },
         setFollowingUsers(state, val) {
             state.followingUsers = val
@@ -129,7 +137,7 @@ const store = new Vuex.Store({
     },
     plugins: [
         createPersistedState({
-            paths: ['task', 'followingUsers', 'workingOnUsers']
+            paths: ['task', 'followingUsers', 'workingOnUsers', 'currentUser', 'userProfile']
         })
     ],
     modules: {}
