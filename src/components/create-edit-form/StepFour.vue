@@ -16,6 +16,7 @@
     import StepOne from "@/components/create-edit-form/StepOne"
     import StepTwo from "@/components/create-edit-form/StepTwo"
     import StepThree from "@/components/create-edit-form/StepThree"
+
     const firebaseConfig = require('../../firebaseConfig.js')
 
     export default {
@@ -29,6 +30,10 @@
                 let task = this.$store.state.task
                 let isNew = task.isNew
                 delete task.isNew
+                task.followingUsersIDs = []
+                task.workingOnUsersIDs = []
+                if (task.followingUsers !== undefined) task.followingUsers.forEach(user => task.followingUsersIDs.push(user.uid))
+                if (task.workingOnUsers !== undefined) task.workingOnUsers.forEach(user => task.workingOnUsersIDs.push(user.uid))
                 task.updatedAt = new Date()
                 if (isNew) {
                     task.createdAt = task.updatedAt
