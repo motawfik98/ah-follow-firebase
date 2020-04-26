@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row m-2">
             <button class="btn btn-secondary" @click="viewNewPage"
-                    v-if="userProfile.classification !== 3">تكليف جديد
+                    v-if="userProfile.classification === 1">تكليف جديد
             </button>
         </div>
 
@@ -79,6 +79,7 @@
             },
             getMoreTasks() {
                 this.loading = true
+                this.disableScrolling = true
                 getTasks(this.userProfile.classification, this.currentUser.uid, this.lastViewedDoc).then(values => {
                     let lastDocument = values.lastDocument
                     let newTasks = values.tasks
@@ -89,6 +90,8 @@
                         this.noMoreTasks = true
                     }
                     this.loading = false
+                    if (!this.noMoreTasks)
+                        this.disableScrolling = false
                 })
             }
         },
@@ -98,6 +101,8 @@
         created() {
             this.$store.dispatch('fetchFollowersUsers')
             this.$store.dispatch('fetchWorkingOnUsers')
+            this.$store.commit('setTasks', [])
+            this.$store.commit('setLastViewedDoc', null)
         },
     }
 </script>
