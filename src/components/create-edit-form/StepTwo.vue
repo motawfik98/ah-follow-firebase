@@ -9,6 +9,14 @@
                          label="username" track-by="username">
             </multiselect>
         </fieldset>
+        <fieldset class="border p-2" v-else-if="userProfile.classification === 3">
+            <legend>المتابعين</legend>
+            <ul class="list-group" v-for="workingOnUser in currentWorkingOnUser" :key="workingOnUser.uid">
+                <li class="list-group-item">
+                    {{workingOnUser.followerName}}
+                </li>
+            </ul>
+        </fieldset>
         <fieldset class="border p-2" v-else>
             <legend>المتابعين</legend>
             <ul class="list-group">
@@ -48,11 +56,15 @@
                                :disabled="user.response === undefined || user.response === '' || userProfile.classification !== 2 || review"
                                :id="'final_response_' + index">
                     </div>
+                    <div class="col-12 form-group">
+                        تمت الاضافه بواسطه {{user.followerName}}
+                    </div>
 
                     <div class="col-12" v-if="userProfile.classification !== 1">
                         <div v-if="userProfile.classification === 3 && !review">
                             <label :for="'workingOnNotes_' + index">ملاحظات القائم به</label>
-                            <textarea name="workingOnUserNotes" :id="'workingOnNotes_' + index" v-model.trim="user.notes"
+                            <textarea name="workingOnUserNotes" :id="'workingOnNotes_' + index"
+                                      v-model.trim="user.notes"
                                       style="width:100%" rows="2"></textarea>
                         </div>
                         <div v-else>
@@ -80,7 +92,12 @@
         name: "StepTwo",
         props: ['review'],
         computed: {
-            ...mapState(['currentUser', 'userProfile', 'task', 'followingUsers', 'workingOnUsers'])
+            ...mapState(['currentUser', 'userProfile', 'task', 'followingUsers', 'workingOnUsers']),
+            currentWorkingOnUser() {
+                return this.task.workingOnUsers.filter(user => {
+                    return user.uid === this.currentUser.uid
+                })
+            }
         },
         methods: {
             goToNextPage() {

@@ -8,6 +8,7 @@ import "firebase/analytics";
 import "firebase/auth";
 import "firebase/firestore";
 import "firebase/functions"
+import "firebase/storage"
 
 const config = {
     apiKey: "AIzaSyA98Ljx4QiOJQn1g6r61-TzE-wBzReQBXU",
@@ -25,6 +26,7 @@ const db = firebase.firestore()
 const auth = firebase.auth()
 const currentUser = auth.currentUser
 const functions = firebase.functions()
+const storage = firebase.storage().ref()
 
 // firebase collections
 const usersCollection = db.collection('users')
@@ -46,5 +48,6 @@ export {
     notificationsCollection,
     devicesTokensCollection,
     filesCollection,
-    functions
+    functions,
+    storage
 }
