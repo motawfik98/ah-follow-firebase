@@ -48,6 +48,8 @@
                         let task = doc.data()
                         task.id = doc.id
                         this.$store.commit('setTask', task)
+                        let clonedTask = JSON.parse(JSON.stringify(task))
+                        this.$store.commit('setTaskBeforeUpdate', clonedTask)
                     } else {
                         this.$store.commit('setFlash', {
                             "status": "failure",

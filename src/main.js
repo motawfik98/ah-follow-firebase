@@ -7,10 +7,12 @@ const fb = require('./firebaseConfig.js')
 import './assets/css/app.css'
 import {ValidationObserver, ValidationProvider} from 'vee-validate';
 import infiniteScroll from 'vue-infinite-scroll'
+import { FormFilePlugin } from 'bootstrap-vue'
 
 Vue.component('ValidationProvider', ValidationProvider);
 Vue.component('ValidationObserver', ValidationObserver)
 Vue.use(infiniteScroll)
+Vue.use(FormFilePlugin)
 
 import './vee-validator'
 

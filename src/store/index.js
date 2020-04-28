@@ -25,6 +25,7 @@ const store = new Vuex.Store({
         flashStatus: null,
         flashMessage: null,
         task: null,
+        taskBeforeUpdate: null,
         tasks: [],
         lastViewedDoc: null,
         followingUsers: [],
@@ -133,6 +134,9 @@ const store = new Vuex.Store({
         },
         setWorkingOnUsers(state, val) {
             state.workingOnUsers = val
+        },
+        setTaskBeforeUpdate(state, val) {
+            state.taskBeforeUpdate = val
         }
     },
     plugins: [
