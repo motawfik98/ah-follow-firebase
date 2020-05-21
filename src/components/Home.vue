@@ -1,12 +1,14 @@
 <template>
     <div class="container">
         <div class="row m-2">
-            <button class="btn btn-secondary" @click="viewNewPage"
+            <button class="btn btn-primary btn-block mb-2" @click="viewNewPage"
                     v-if="userProfile.classification === 1">تكليف جديد
             </button>
+            <Search class="w-100" @update="updateSearchValues"></Search>
         </div>
 
-        <div v-infinite-scroll="getMoreTasks" infinite-scroll-disabled="disableScrolling" infinite-scroll-throttle-delay="250">
+        <div v-infinite-scroll="getMoreTasks" infinite-scroll-disabled="disableScrolling"
+             infinite-scroll-throttle-delay="250">
             <div class="row align-items-start">
                 <div class="col-xs-12 col-sm-6 col-lg-4" v-for="task in tasks" :key="task.id">
                     <div class="mdc-card mb-5">
@@ -60,6 +62,7 @@
 <script>
     import {mapState} from 'vuex'
     import {getTasks} from "@/getTasks";
+    import Search from "@/components/Search";
 
     export default {
         name: "Home",
@@ -67,8 +70,17 @@
             return {
                 disableScrolling: false,
                 loading: false,
-                noMoreTasks: false
+                noMoreTasks: false,
+                searchingValues: {
+                    title: '',
+                    workingOnUser: null,
+                    startDate: '',
+                    endDate: '',
+                }
             }
+        },
+        components: {
+            'Search': Search
         },
         methods: {
             viewNewPage() {
@@ -77,10 +89,17 @@
             editTask(taskID) {
                 this.$router.push(`/tasks/task/${taskID}`)
             },
+            updateSearchValues(newValues) {
+                this.searchingValues = newValues
+                this.$store.commit('setTasks', [])
+                this.$store.commit('setLastViewedDoc', null)
+                this.disableScrolling = false
+                this.getMoreTasks()
+            },
             getMoreTasks() {
                 this.loading = true
                 this.disableScrolling = true
-                getTasks(this.userProfile.classification, this.currentUser.uid, this.lastViewedDoc).then(values => {
+                getTasks(this.userProfile.classification, this.currentUser.uid, this.lastViewedDoc, this.searchingValues).then(values => {
                     let lastDocument = values.lastDocument
                     let newTasks = values.tasks
                     this.$store.commit('appendToTasks', newTasks)
